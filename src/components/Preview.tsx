@@ -9,19 +9,32 @@ interface PreviewProps {
 const Preview: React.FC<PreviewProps> = ({ html, isGenerating }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const [status, setStatus] = useState<string>('');
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
-  // Process the HTML to remove markdown code blocks and metadata
   const processHtml = (rawHtml: string): string => {
-    // Remove markdown code block markers and metadata comments
     let processed = rawHtml
       .replace(/```html\n?/g, '')
       .replace(/```\n?.*$/g, '')
       .trim();
     
-    // Remove any trailing metadata about the webpage features
     processed = processed.replace(/This webpage includes:[\s\S]*$/, '');
     
     return processed;
+  };
+
+  const toggleFullscreen = () => {
+    if (!iframeRef.current) return;
+    
+    if (!isFullscreen) {
+      if (iframeRef.current.requestFullscreen) {
+        iframeRef.current.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+    setIsFullscreen(!isFullscreen);
   };
 
   const processedHtml = processHtml(html);
@@ -35,7 +48,6 @@ const Preview: React.FC<PreviewProps> = ({ html, isGenerating }) => {
       iframe.contentWindow.document.close();
     }
 
-    // Update status
     if (isGenerating) {
       setStatus('Generating website...');
     } else if (html) {
@@ -73,10 +85,16 @@ const Preview: React.FC<PreviewProps> = ({ html, isGenerating }) => {
         />
       </div>
       
-      <div className="h-12 bg-gray-50 border-t border-gray-200">
-        <div className="h-full px-4 flex items-center text-sm text-gray-600">
+      <div className="h-12 bg-gray-50 border-t border-gray-200 flex items-center justify-between px-4">
+        <div className="text-sm text-gray-600">
           {status || 'Ready to generate'}
         </div>
+        <button
+          onClick={toggleFullscreen}
+          className="px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded-md transition-colors"
+        >
+          {isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+        </button>
       </div>
     </div>
   );
