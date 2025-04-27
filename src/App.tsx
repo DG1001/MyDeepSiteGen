@@ -9,10 +9,10 @@ function App() {
       <header className="bg-white shadow-sm py-4 px-6">
         <div className="container mx-auto flex justify-between items-center">
           <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">
-            DeepSite Generator
+            MySite Generator
           </h1>
           <a
-            href="https://github.com"
+            href="https://github.com/DG1001/MyDeepSiteGen"
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-600 hover:text-gray-900 transition-colors"
@@ -31,7 +31,7 @@ function App() {
       {/* Footer */}
       <footer className="bg-white py-4 px-6 border-t border-gray-200">
         <div className="container mx-auto text-center text-gray-500 text-sm">
-          <p>Powered by DeepSeek AI • Created with ❤️ in 2025</p>
+          <p>Powered by DeepSeek AI • Created with ❤️ by MeiLuft in 2025</p>
         </div>
       </footer>
     </div>
